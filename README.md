@@ -1,7 +1,7 @@
 # bucklerStore
 
 Add-ons for [Buckler](https://github.com/asafelobotomy/buckler), the Android TV Home for NVIDIA
-SHIELD: **widgets**, **colour schemes**, **fonts** and **icon packs**.
+SHIELD: **widgets**, **screensavers**, **colour schemes**, **fonts** and **icon packs**.
 
 Buckler reads one file from this repository, [`index.json`](index.json), and offers what it lists:
 
@@ -11,6 +11,7 @@ Buckler reads one file from this repository, [`index.json`](index.json), and off
 | Kind | What installing does |
 |---|---|
 | Widgets | Adds one of Buckler's Main Stage widgets to Home's choices (removing it hides it again). Their code ships in Buckler itself. |
+| Screensavers | Adds one of Buckler's screensavers to Settings → Screensaver and the setup wizard (removing it hides it again). Their code ships in Buckler itself. |
 | Colour schemes | Saves the scheme on the TV; it joins Appearance → Colour scheme. |
 | Fonts | Downloads Regular and Bold (SIL OFL, trimmed to Latin, ~60 KB each); the font joins Appearance → Font. |
 | Icon packs | Downloads the APK and hands it to Android to install; pick it in Appearance → Icons & artwork. |
@@ -27,6 +28,7 @@ not match, and an icon pack whose package name differs from the one listed.
      then `uv run python scripts/gen_fonts.py <id>`.
    - `iconpacks.yaml` — an open icon pack APK with its sha256.
    - `widgets.yaml` — only when Buckler ships a new Main Stage widget (`id` is its Main Stage name).
+   - `screensavers.yaml` — only when Buckler ships a new screensaver (`id` is `saver_` and its name).
 2. `uv run python scripts/build_index.py`
 3. `uv run pytest -q`, and commit `index.json` with your change.
 

@@ -44,6 +44,19 @@ def test_widgets_have_a_since_version() -> None:
         assert all(part.isdigit() for part in widget["since"].split("."))
 
 
+def test_screensavers_have_a_since_version_and_a_prefixed_id() -> None:
+    savers = build()["screensavers"]
+    assert savers
+    for saver in savers:
+        assert saver["id"].startswith("saver_")
+        assert all(part.isdigit() for part in saver["since"].split("."))
+
+
+def test_four_screensavers_come_standard() -> None:
+    standard = {s["id"] for s in build()["screensavers"] if s["default"]}
+    assert standard == {"saver_clock", "saver_photos", "saver_uploaded", "saver_now_playing"}
+
+
 def test_duplicate_ids_are_refused() -> None:
     index = json.loads(render(build()))
     index["fonts"][0]["id"] = index["themes"][0]["id"]
