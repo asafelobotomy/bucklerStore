@@ -57,6 +57,19 @@ def test_four_screensavers_come_standard() -> None:
     assert standard == {"saver_clock", "saver_photos", "saver_uploaded", "saver_now_playing"}
 
 
+def test_schemes_have_a_since_version_and_a_prefixed_id() -> None:
+    schemes = build()["schemes"]
+    assert schemes
+    for scheme in schemes:
+        assert scheme["id"].startswith("scheme_")
+        assert all(part.isdigit() for part in scheme["since"].split("."))
+
+
+def test_four_schemes_come_standard() -> None:
+    standard = {s["id"] for s in build()["schemes"] if s["default"]}
+    assert standard == {"scheme_buckler", "scheme_light", "scheme_dark", "scheme_shield"}
+
+
 def test_duplicate_ids_are_refused() -> None:
     index = json.loads(render(build()))
     index["fonts"][0]["id"] = index["themes"][0]["id"]

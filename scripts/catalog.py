@@ -72,6 +72,10 @@ def build() -> dict[str, Any]:
             {k: v[k] for k in ("id", "label", "about", "default", "since")}
             for v in _yaml("screensavers.yaml")["screensavers"]
         ],
+        "schemes": [
+            {k: v[k] for k in ("id", "label", "about", "default", "since")}
+            for v in _yaml("schemes.yaml")["schemes"]
+        ],
         "themes": [
             {"id": t["id"], "label": t["label"], "about": t["about"], "dark": t["dark"],
              "colors": {k: t["colors"][k].upper() for k in COLOR_KEYS}}
@@ -98,7 +102,7 @@ def render(index: dict[str, Any]) -> str:
 
 def validate(index: dict[str, Any]) -> None:
     seen: set[str] = set()
-    for kind in ("widgets", "screensavers", "themes", "fonts", "iconpacks"):
+    for kind in ("widgets", "screensavers", "schemes", "themes", "fonts", "iconpacks"):
         for item in index[kind]:
             ident = item["id"]
             if not ID.match(ident):
