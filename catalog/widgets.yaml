@@ -3,64 +3,90 @@
 # in Buckler (MainStage.wire()). `default` widgets are added until removed; the rest wait to be
 # added, though Buckler keeps one already in use added. A widget newer than a Buckler install says
 # so (`since`) and stays unavailable there. Standard: News, Now Playing, Weather, Suggested.
+# `revision` goes up with every change people would notice (with `changes` saying what), and
+# `requires` is the Buckler version that carries the current revision.
 widgets:
   - id: news
     label: News
     about: Headlines from the sources you pick, one story at a time.
+    revision: 1
     default: true
     since: "0.1.0"
+    requires: "0.1.0"
   - id: now_playing
     label: Now Playing
     about: The song or show playing on the TV, with its artwork and controls.
+    revision: 1
     default: true
     since: "0.1.0"
+    requires: "0.1.0"
   - id: lyrics
     label: Lyrics
     about: Time-synced lyrics for the song playing, karaoke style.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: weather
     label: Weather
     about: Today and the days ahead for your city (Open-Meteo).
+    revision: 1
     default: true
     since: "0.1.0"
+    requires: "0.1.0"
   - id: suggested
     label: Suggested
     about: Things to watch from your apps' own recommendations.
+    revision: 1
     default: true
     since: "0.1.0"
+    requires: "0.1.0"
   - id: glance
     label: At a Glance
     about: The next thing on your calendar, reminders and the weather in one line.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: calendar
     label: Calendar
     about: The next few days side by side, with reminders, from the calendars the TV syncs.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: weather_map
     label: Weather map
     about: "A live map around your city: pressure lines with highs and lows, wind and rain."
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: companion
     label: Companion
     about: A little animated friend that reacts to the time and weather.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: multiview
     label: Multiview
     about: Several live streams side by side.
+    revision: 1
     default: false
     since: "0.21.0"
+    requires: "0.21.0"
   - id: comics
     label: Comics
     about: Public-domain newspaper strips, cleaned up, with a reader to zoom panel by panel.
+    revision: 1
     default: false
     since: "0.23.0"
+    requires: "0.23.0"
   - id: spurious
     label: Spurious correlations
     about: Two unrelated things that rose and fell together, from Tyler Vigen's charts.
+    revision: 1
     default: false
     since: "0.23.0"
+    requires: "0.23.0"

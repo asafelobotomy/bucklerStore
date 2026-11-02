@@ -2,6 +2,7 @@
 # from the google/fonts repository at a pinned commit, cuts a Regular (400) and a Bold (700)
 # instance, trims it to Latin and writes fonts/<id>/regular.ttf, bold.ttf and OFL.txt.
 # scripts/build_index.py then pins each file's sha256 in index.json.
+# `revision` goes up with every change (with `changes` saying what); Buckler offers the update.
 commit: 9862abc066c9b83bf84c3e8ed1fc2d8d48f9bbf0
 fonts:
   - id: lexend
@@ -9,48 +10,58 @@ fonts:
     folder: lexend
     file: Lexend[wght].ttf
     about: Wide, even letters designed to make reading easier.
+    revision: 1
   - id: lora
     label: Lora
     folder: lora
     file: Lora[wght].ttf
     about: A calligraphic serif, warm at TV sizes.
+    revision: 1
   - id: space-grotesk
     label: Space Grotesk
     folder: spacegrotesk
     file: SpaceGrotesk[wght].ttf
     about: A quirky geometric sans with a technical edge.
+    revision: 1
   - id: ibm-plex-sans
     label: IBM Plex Sans
     folder: ibmplexsans
     file: IBMPlexSans[wdth,wght].ttf
     about: Neutral and engineered, with distinctive details.
+    revision: 1
   - id: jetbrains-mono
     label: JetBrains Mono
     folder: jetbrainsmono
     file: JetBrainsMono[wght].ttf
     about: A coder's monospace with tall lowercase letters.
+    revision: 1
   - id: quicksand
     label: Quicksand
     folder: quicksand
     file: Quicksand[wght].ttf
     about: Rounded and friendly.
+    revision: 1
   - id: bitter
     label: Bitter
     folder: bitter
     file: Bitter[wght].ttf
     about: A sturdy slab serif made for screens.
+    revision: 1
   - id: outfit
     label: Outfit
     folder: outfit
     file: Outfit[wght].ttf
     about: Clean geometric shapes, modern and light.
+    revision: 1
   - id: source-sans-3
     label: Source Sans 3
     folder: sourcesans3
     file: SourceSans3[wght].ttf
     about: Adobe's open, highly legible UI sans.
+    revision: 1
   - id: comfortaa
     label: Comfortaa
     folder: comfortaa
     file: Comfortaa[wght].ttf
     about: Soft, round and playful.
+    revision: 1

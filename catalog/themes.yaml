@@ -1,10 +1,12 @@
 # Colour schemes for Buckler. Each sets every colour the launcher draws with; tests/test_catalog.py
 # holds them to the same contrast rules as Buckler's built-in schemes (text 7:1 on the background,
 # 4.5:1 on tiles, and so on). Colours are #RRGGBB.
+# `revision` goes up with every change (with `changes` saying what); Buckler offers the update.
 themes:
   - id: sakura
     label: Sakura
     about: Night-time plum with cherry-blossom pink and leaf green.
+    revision: 1
     dark: true
     colors:
       bgTop: "#1E1620"
@@ -24,6 +26,7 @@ themes:
   - id: matcha
     label: Matcha
     about: Soft whisked-green tea on warm paper; a light scheme.
+    revision: 1
     dark: false
     colors:
       bgTop: "#F3F1E6"
@@ -43,6 +46,7 @@ themes:
   - id: arcade
     label: Arcade
     about: Cabinet black with hot magenta and cyan, like an 80s attract screen.
+    revision: 1
     dark: true
     colors:
       bgTop: "#0B0A12"
@@ -62,6 +66,7 @@ themes:
   - id: sunset
     label: Sunset
     about: Dusky indigo fading to coral and amber.
+    revision: 1
     dark: true
     colors:
       bgTop: "#1A1830"
@@ -81,6 +86,7 @@ themes:
   - id: forest
     label: Forest
     about: Deep pine with moss and birch-bark cream.
+    revision: 1
     dark: true
     colors:
       bgTop: "#101A14"
@@ -100,6 +106,7 @@ themes:
   - id: abyss
     label: Abyss
     about: Ocean-floor blue-black with bioluminescent aqua.
+    revision: 1
     dark: true
     colors:
       bgTop: "#060E17"
@@ -119,6 +126,7 @@ themes:
   - id: mono
     label: Mono
     about: Pure greyscale with a white accent, for a calm, colourless Home.
+    revision: 1
     dark: true
     colors:
       bgTop: "#111111"
@@ -138,6 +146,7 @@ themes:
   - id: parchment
     label: Parchment
     about: Old paper and sepia ink with an oxblood accent; a light scheme.
+    revision: 1
     dark: false
     colors:
       bgTop: "#F6EEDC"

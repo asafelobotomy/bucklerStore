@@ -21,6 +21,10 @@ REPO = "asafelobotomy/bucklerStore"
 RAW = f"https://raw.githubusercontent.com/{REPO}/main"
 
 SCHEMA = 1
+KINDS = ("widgets", "screensavers", "schemes", "themes", "fonts", "iconpacks")
+# Items whose code or colours ship inside Buckler; `requires` is the Buckler version that carries
+# their current revision.
+BUILT_IN = ("widgets", "screensavers", "schemes")
 COLOR_KEYS = (
     "bgTop", "bgMid", "bgBottom", "brand", "onBrand", "text", "muted", "hint",
     "section", "tile", "footer", "border", "ring",
@@ -65,35 +69,63 @@ def build() -> dict[str, Any]:
     index = {
         "schema": SCHEMA,
         "widgets": [
-            {k: w[k] for k in ("id", "label", "about", "default", "since")}
+            {**{k: w[k] for k in ("id", "label", "about", "default", "since", "requires")}, **_revision(w)}
             for w in _yaml("widgets.yaml")["widgets"]
         ],
         "screensavers": [
-            {k: v[k] for k in ("id", "label", "about", "default", "since")}
+            {**{k: v[k] for k in ("id", "label", "about", "default", "since", "requires")}, **_revision(v)}
             for v in _yaml("screensavers.yaml")["screensavers"]
         ],
         "schemes": [
-            {k: v[k] for k in ("id", "label", "about", "default", "since")}
+            {**{k: v[k] for k in ("id", "label", "about", "default", "since", "requires")}, **_revision(v)}
             for v in _yaml("schemes.yaml")["schemes"]
         ],
         "themes": [
-            {"id": t["id"], "label": t["label"], "about": t["about"], "dark": t["dark"],
+            {"id": t["id"], "label": t["label"], "about": t["about"], **_revision(t), "dark": t["dark"],
              "colors": {k: t["colors"][k].upper() for k in COLOR_KEYS}}
             for t in _yaml("themes.yaml")["themes"]
         ],
         "fonts": [
-            {"id": f["id"], "label": f["label"], "about": f["about"], "license": "OFL-1.1",
+            {"id": f["id"], "label": f["label"], "about": f["about"], **_revision(f), "license": "OFL-1.1",
              "files": {style: _file(FONTS_DIR / f["id"] / f"{style}.ttf") for style in ("regular", "bold")}}
             for f in fonts
         ],
         "iconpacks": [
-            {k: str(p[k]) if k != "size" else int(p[k])
-             for k in ("id", "label", "package", "version", "url", "sha256", "size", "license", "about")}
+            {**{k: str(p[k]) if k != "size" else int(p[k])
+                for k in ("id", "label", "package", "version", "url", "sha256", "size", "license", "about")},
+             **_revision(p)}
             for p in _yaml("iconpacks.yaml")["iconpacks"]
         ],
     }
     validate(index)
     return index
+
+
+def _revision(item: dict[str, Any]) -> dict[str, Any]:
+    """An item's own revision (1, 2, …) and what changed in the latest one."""
+    return {"revision": item["revision"], "changes": str(item.get("changes", ""))}
+
+
+def check_revisions(old: dict[str, Any], new: dict[str, Any]) -> None:
+    """Refuse an item that changed without a higher revision, or whose revision went down.
+
+    Buckler tells people an item they use was updated by comparing revisions, so a change that
+    keeps its revision would go unnoticed, and a lower one would look like a downgrade.
+    """
+    def items(index: dict[str, Any]) -> dict[str, dict[str, Any]]:
+        return {i["id"]: i for kind in KINDS for i in index.get(kind, [])}
+
+    before = items(old)
+    for ident, item in items(new).items():
+        prior = before.get(ident)
+        if prior is None or "revision" not in prior:
+            continue
+        if item["revision"] < prior["revision"]:
+            raise CatalogError(f"{ident}: revision went down from {prior['revision']} to {item['revision']}")
+        same = {k: v for k, v in item.items() if k not in ("revision", "changes", "about")} == \
+            {k: v for k, v in prior.items() if k not in ("revision", "changes", "about")}
+        if not same and item["revision"] == prior["revision"]:
+            raise CatalogError(f"{ident} changed: raise its revision to {item['revision'] + 1} and say what changed")
 
 
 def render(index: dict[str, Any]) -> str:
@@ -102,7 +134,7 @@ def render(index: dict[str, Any]) -> str:
 
 def validate(index: dict[str, Any]) -> None:
     seen: set[str] = set()
-    for kind in ("widgets", "screensavers", "schemes", "themes", "fonts", "iconpacks"):
+    for kind in KINDS:
         for item in index[kind]:
             ident = item["id"]
             if not ID.match(ident):
@@ -112,6 +144,15 @@ def validate(index: dict[str, Any]) -> None:
             seen.add(ident)
             if not str(item.get("label", "")).strip() or not str(item.get("about", "")).strip():
                 raise CatalogError(f"{ident}: needs a label and an about line")
+            revision = item.get("revision")
+            if not isinstance(revision, int) or isinstance(revision, bool) or revision < 1:
+                raise CatalogError(f"{ident}: revision must be a whole number from 1")
+            if revision > 1 and not item.get("changes", "").strip():
+                raise CatalogError(f"{ident}: revision {revision} needs a `changes` line saying what is new")
+            if kind in BUILT_IN:
+                since, requires = _semver(item["since"], ident), _semver(item["requires"], ident)
+                if requires < since:
+                    raise CatalogError(f"{ident}: requires {item['requires']} is older than since {item['since']}")
     for theme in index["themes"]:
         for key, value in theme["colors"].items():
             if not HEX.match(value):
@@ -119,6 +160,12 @@ def validate(index: dict[str, Any]) -> None:
     for pack in index["iconpacks"]:
         if not pack["url"].startswith("https://") or not re.fullmatch(r"[0-9a-f]{64}", pack["sha256"]):
             raise CatalogError(f"icon pack {pack['id']}: needs an https url and a lower-case hex sha256")
+
+
+def _semver(raw: str, ident: str) -> tuple[int, ...]:
+    if not re.fullmatch(r"\d+\.\d+\.\d+", str(raw)):
+        raise CatalogError(f"{ident}: {raw!r} is not a version like 0.23.0")
+    return tuple(int(part) for part in str(raw).split("."))
 
 
 def luminance(hex_color: str) -> float:

@@ -11,11 +11,20 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from catalog import INDEX, build, render
+import json
+
+from catalog import INDEX, CatalogError, build, check_revisions, render
 
 
 def main(argv: list[str]) -> int:
-    text = render(build())
+    index = build()
+    text = render(index)
+    if INDEX.is_file():
+        try:
+            check_revisions(json.loads(INDEX.read_text(encoding="utf-8")), index)
+        except CatalogError as exc:
+            print(exc, file=sys.stderr)
+            return 1
     if "--check" in argv:
         if not INDEX.is_file() or INDEX.read_text(encoding="utf-8") != text:
             print("index.json is out of date: run scripts/build_index.py", file=sys.stderr)

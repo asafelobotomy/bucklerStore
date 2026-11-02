@@ -1,5 +1,6 @@
 # Open icon packs (Android apps in the common launcher format). Buckler downloads the APK, checks
 # it against the pinned sha256 and the package name, and hands it to Android to install.
+# `revision` goes up with every change (with `changes` saying what); Buckler offers the update.
 iconpacks:
   - id: lawnicons
     label: Lawnicons
@@ -10,6 +11,7 @@ iconpacks:
     size: 19000000
     license: Apache-2.0
     about: Single-colour outline icons (about 23,000 app mappings).
+    revision: 1
 
   - id: arcticons
     label: Arcticons
@@ -20,3 +22,4 @@ iconpacks:
     size: 71000000
     license: CC BY-SA 4.0 icons, GPL-3.0 app
     about: White line icons (about 49,000 app mappings).
+    revision: 1

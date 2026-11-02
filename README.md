@@ -20,6 +20,18 @@ Buckler reads one file from this repository, [`index.json`](index.json), and off
 Every downloaded file is pinned by its SHA-256 in `index.json`; Buckler refuses a file that does
 not match, and an icon pack whose package name differs from the one listed.
 
+## Revisions
+
+Every item has its own `revision` (1, 2, 3…) and a `changes` line saying what the latest one
+brought. Buckler compares the revision with the one it has, and tells people when something they
+use was updated. Raise it whenever an item changes (new colours, new font files, a new icon pack
+APK, or new code for a widget, screensaver or built-in scheme); a new description alone needs
+none. `scripts/build_index.py` refuses a changed item whose revision didn't go up, or went down.
+
+Widgets, screensavers and built-in colour schemes also have `requires`: the Buckler version that
+carries their current revision (`since` stays the first version that had them at all). A Buckler
+older than `requires` can say the item has an update that comes with a Buckler update.
+
 ## Adding something
 
 1. Edit the YAML under [`catalog/`](catalog):

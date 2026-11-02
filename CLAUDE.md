@@ -27,15 +27,20 @@ only for a one-line hook-up (a new store item's dispatch case), and say so in th
 3. In the worktree: `uv run pytest -q`, `.venv/bin/ruff check src tests scripts .claude/hooks`
    (the main checkout's `.venv`), `uv run python scripts/check_loc.py`, and
    `(cd launcher && ./gradlew :app:testDebugUnitTest :app:lintDebug)`.
-4. Commit there with what changed and which store item it is. Push or merge only when the user
+4. Raise the item's revision here: in its `catalog/*.yaml` entry set `revision` one higher,
+   `changes` to a short line people will read on their TV ("Stone and wood walls, and gems that
+   roll the view."), and `requires` to the Buckler version the change ships in: the `version` in
+   Buckler's `pyproject.toml` if it has no `v` tag yet, else the next minor version. Rebuild
+   `index.json`, copy it over Buckler's two bundled copies in the worktree, and commit both sides.
+5. Commit there with what changed and which store item it is. Push or merge only when the user
    says so. Buckler's `main` releases when its version is bumped, so anything on `main` ships next.
-5. Remove the worktree and branch once the work is on `main`.
+6. Remove the worktree and branch once the work is on `main`.
 
 ## Adding a store item
 
 1. Here: add it to `catalog/widgets.yaml` or `catalog/screensavers.yaml` (`default: false`,
-   `since` = the Buckler version it first ships in), run `uv run python scripts/build_index.py`
-   and `uv run pytest -q`, then commit.
+   `since` and `requires` = the Buckler version it first ships in, `revision: 1`), run
+   `uv run python scripts/build_index.py` and `uv run pytest -q`, then commit.
 2. In a buckler worktree: add its files to `.claude/store-owned.json` under its id, and copy
    `index.json` over `launcher/app/src/main/assets/store_index.json` and
    `src/buckler/data/store/index.json`. Buckler's tests check all three agree.
@@ -44,3 +49,10 @@ only for a one-line hook-up (a new store item's dispatch case), and say so in th
 
 Downloadable colour schemes, fonts and icon packs live only here. Built-in colour schemes are
 store-listed (`catalog/schemes.yaml`), but their colours are in Buckler's shared `Palette.kt`.
+
+## Revisions
+
+Every item has a `revision` and a `changes` line; Buckler uses them to tell people an item they
+use was updated. Raise the revision for any change people would notice: colours, font or APK
+files, or the item's code in Buckler. A new description alone needs none. `build_index.py`
+refuses a changed item with the same revision, or a lower one.

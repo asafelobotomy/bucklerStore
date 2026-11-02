@@ -4,89 +4,125 @@
 # added until removed; the rest wait to be added, though Buckler keeps the one in use added. A
 # scheme newer than a Buckler install says so (`since`) and stays unavailable there.
 # Standard: Buckler, Light, Dark, SHIELD. Downloadable schemes are in themes.yaml.
+# `revision` goes up with every change people would notice (with `changes` saying what), and
+# `requires` is the Buckler version that carries the current revision.
 schemes:
   - id: scheme_buckler
     label: Buckler
     about: Teal and sage from the Buckler mark; the default.
+    revision: 1
     default: true
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_light
     label: Light
     about: Warm paper with a bronze accent, for bright rooms.
+    revision: 1
     default: true
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_dark
     label: Dark
     about: The original gold on navy.
+    revision: 1
     default: true
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_shield
     label: SHIELD
     about: NVIDIA green on black, like the stock SHIELD interface.
+    revision: 1
     default: true
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_gruvbox
     label: Gruvbox
     about: Retro warm browns with a yellow accent.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_snes_uk
     label: SNES (UK)
     about: The PAL pad's grey shell with red, yellow, green and blue buttons.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_snes_us
     label: SNES (US)
     about: The North American pad's pale grey with lavender-purple buttons.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_slate
     label: Slate
     about: Cool slate blues with a sky-blue accent.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_velvet
     label: Velvet
     about: Deep plum with violet, mint and pink.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_ember
     label: Ember
     about: Warm charcoal with hot pink and lime.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_tidepool
     label: Tidepool
     about: Deep sea teal with clear blue and olive.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_fjord
     label: Fjord
     about: Arctic greys with frost blue and moss.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_marshmallow
     label: Marshmallow
     about: Soft night with pastel lilac and mint.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_neon
     label: Neon
     about: Late-night navy with electric blue and lime.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_graphite
     label: Graphite
     about: Near-black with bright blue and green.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_rosewood
     label: Rosewood
     about: Dusky purple with rose and sea-foam.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"
   - id: scheme_saffron
     label: Saffron
     about: Ink black with saffron orange and lime.
+    revision: 1
     default: false
     since: "0.1.0"
+    requires: "0.1.0"

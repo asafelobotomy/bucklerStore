@@ -2,12 +2,26 @@
 
 from __future__ import annotations
 
+import copy
 import json
+import re
 
 import pytest
 from fontTools.ttLib import TTFont
 
-from catalog import CONTRAST_RULES, FONTS_DIR, INDEX, CatalogError, build, contrast, render, validate
+from catalog import (
+    BUILT_IN,
+    CONTRAST_RULES,
+    FONTS_DIR,
+    INDEX,
+    KINDS,
+    CatalogError,
+    build,
+    check_revisions,
+    contrast,
+    render,
+    validate,
+)
 
 
 def test_index_is_current() -> None:
@@ -81,4 +95,50 @@ def test_bad_colours_are_refused() -> None:
     index = json.loads(render(build()))
     index["themes"][0]["colors"]["text"] = "white"
     with pytest.raises(CatalogError):
+        validate(index)
+
+
+def test_every_item_has_a_revision_and_built_ins_a_buckler_version() -> None:
+    index = build()
+    for kind in KINDS:
+        for item in index[kind]:
+            assert item["revision"] >= 1 and "changes" in item, item["id"]
+            if kind in BUILT_IN:
+                assert re.fullmatch(r"\d+\.\d+\.\d+", item["requires"]), item["id"]
+
+
+def test_the_new_maze_is_revision_two_for_buckler_0_23() -> None:
+    maze = next(s for s in build()["screensavers"] if s["id"] == "saver_maze")
+    assert (maze["revision"], maze["requires"]) == (2, "0.23.0") and maze["changes"]
+
+
+def test_a_change_without_a_new_revision_is_refused() -> None:
+    old = json.loads(render(build()))
+    new = copy.deepcopy(old)
+    new["themes"][0]["colors"]["brand"] = "#123456"
+    with pytest.raises(CatalogError, match="raise its revision"):
+        check_revisions(old, new)
+    new["themes"][0]["revision"] += 1
+    check_revisions(old, new)
+
+
+def test_a_new_description_alone_needs_no_revision() -> None:
+    old = json.loads(render(build()))
+    new = copy.deepcopy(old)
+    new["widgets"][0]["about"] = "Something clearer."
+    check_revisions(old, new)
+
+
+def test_revisions_never_go_down() -> None:
+    old = json.loads(render(build()))
+    new = copy.deepcopy(old)
+    next(s for s in new["screensavers"] if s["id"] == "saver_maze")["revision"] = 1
+    with pytest.raises(CatalogError, match="went down"):
+        check_revisions(old, new)
+
+
+def test_a_later_revision_must_say_what_changed() -> None:
+    index = json.loads(render(build()))
+    index["fonts"][0].update(revision=2, changes="")
+    with pytest.raises(CatalogError, match="changes"):
         validate(index)
