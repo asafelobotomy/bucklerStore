@@ -1,7 +1,8 @@
 # Buckler's Main Stage widgets. Their code ships inside Buckler; the store lets you add or remove
 # each one, and Home and Settings only offer the ones added. `id` is the widget's Main Stage name
 # in Buckler (MainStage.wire()). `default` widgets are added until removed; the rest wait to be
-# added. A widget newer than a Buckler install says so (`since`) and stays unavailable there.
+# added, though Buckler keeps one already in use added. A widget newer than a Buckler install says
+# so (`since`) and stays unavailable there. Standard: News, Now Playing, Weather, Suggested.
 widgets:
   - id: news
     label: News
@@ -16,7 +17,7 @@ widgets:
   - id: lyrics
     label: Lyrics
     about: Time-synced lyrics for the song playing, karaoke style.
-    default: true
+    default: false
     since: "0.1.0"
   - id: weather
     label: Weather
@@ -31,25 +32,25 @@ widgets:
   - id: glance
     label: At a Glance
     about: The next thing on your calendar, reminders and the weather in one line.
-    default: true
+    default: false
     since: "0.1.0"
   - id: calendar
     label: Calendar
     about: The week ahead from the calendars the TV syncs.
-    default: true
+    default: false
     since: "0.1.0"
   - id: weather_map
     label: Weather map
     about: A live map of rain and pressure around your city.
-    default: true
+    default: false
     since: "0.1.0"
   - id: companion
     label: Companion
     about: A little animated friend that reacts to the time and weather.
-    default: true
+    default: false
     since: "0.1.0"
   - id: multiview
     label: Multiview
     about: Several live streams side by side.
-    default: true
+    default: false
     since: "0.21.0"
