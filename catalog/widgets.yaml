@@ -36,12 +36,12 @@ widgets:
     since: "0.1.0"
   - id: calendar
     label: Calendar
-    about: The week ahead from the calendars the TV syncs.
+    about: The next few days side by side, with reminders, from the calendars the TV syncs.
     default: false
     since: "0.1.0"
   - id: weather_map
     label: Weather map
-    about: A live map of rain and pressure around your city.
+    about: "A live map around your city: pressure lines with highs and lows, wind and rain."
     default: false
     since: "0.1.0"
   - id: companion
