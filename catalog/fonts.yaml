@@ -1,0 +1,56 @@
+# Fonts for Buckler, all under the SIL Open Font License. scripts/gen_fonts.py fetches each family
+# from the google/fonts repository at a pinned commit, cuts a Regular (400) and a Bold (700)
+# instance, trims it to Latin and writes fonts/<id>/regular.ttf, bold.ttf and OFL.txt.
+# scripts/build_index.py then pins each file's sha256 in index.json.
+commit: 9862abc066c9b83bf84c3e8ed1fc2d8d48f9bbf0
+fonts:
+  - id: lexend
+    label: Lexend
+    folder: lexend
+    file: Lexend[wght].ttf
+    about: Wide, even letters designed to make reading easier.
+  - id: lora
+    label: Lora
+    folder: lora
+    file: Lora[wght].ttf
+    about: A calligraphic serif, warm at TV sizes.
+  - id: space-grotesk
+    label: Space Grotesk
+    folder: spacegrotesk
+    file: SpaceGrotesk[wght].ttf
+    about: A quirky geometric sans with a technical edge.
+  - id: ibm-plex-sans
+    label: IBM Plex Sans
+    folder: ibmplexsans
+    file: IBMPlexSans[wdth,wght].ttf
+    about: Neutral and engineered, with distinctive details.
+  - id: jetbrains-mono
+    label: JetBrains Mono
+    folder: jetbrainsmono
+    file: JetBrainsMono[wght].ttf
+    about: A coder's monospace with tall lowercase letters.
+  - id: quicksand
+    label: Quicksand
+    folder: quicksand
+    file: Quicksand[wght].ttf
+    about: Rounded and friendly.
+  - id: bitter
+    label: Bitter
+    folder: bitter
+    file: Bitter[wght].ttf
+    about: A sturdy slab serif made for screens.
+  - id: outfit
+    label: Outfit
+    folder: outfit
+    file: Outfit[wght].ttf
+    about: Clean geometric shapes, modern and light.
+  - id: source-sans-3
+    label: Source Sans 3
+    folder: sourcesans3
+    file: SourceSans3[wght].ttf
+    about: Adobe's open, highly legible UI sans.
+  - id: comfortaa
+    label: Comfortaa
+    folder: comfortaa
+    file: Comfortaa[wght].ttf
+    about: Soft, round and playful.
